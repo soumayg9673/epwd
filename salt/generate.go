@@ -12,6 +12,8 @@ var (
 	ErrSaltLength = errors.New("salt length is set to negative number")
 )
 
+// GenerateSalt generates a random salt of the given length using allowed characters.
+// Returns an error if the provided length is negative.
 func GenerateSalt(sl int) ([]byte, error) {
 
 	// validate salt length config
