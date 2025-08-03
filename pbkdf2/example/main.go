@@ -1,8 +1,10 @@
 package main
 
 import (
+	"encoding/base64"
 	"fmt"
 	"log"
+	"strings"
 
 	"github.com/soumayg9673/epwd/pbkdf2"
 )
@@ -28,6 +30,14 @@ func main() {
 
 	fmt.Printf("Hashed password: %x\n", hashedPassword)
 	fmt.Printf("Generated salt: %x\n", salt)
+
+	// Convert to base64 for storage/transmission
+	// This is what the user requested: h := strings.TrimSpace(base64.StdEncoding.EncodeToString(p))
+	h := strings.TrimSpace(base64.StdEncoding.EncodeToString(hashedPassword))
+	s := strings.TrimSpace(base64.StdEncoding.EncodeToString(salt))
+
+	fmt.Printf("Base64 encoded hash: %s\n", h)
+	fmt.Printf("Base64 encoded salt: %s\n", s)
 
 	// Verify the correct password
 	fmt.Println("\n2. Verifying correct password...")
@@ -59,6 +69,13 @@ func main() {
 	}
 
 	fmt.Printf("Hashed password with custom salt: %x\n", customHashedPassword)
+
+	// Convert custom hash to base64
+	ch := strings.TrimSpace(base64.StdEncoding.EncodeToString(customHashedPassword))
+	cs := strings.TrimSpace(base64.StdEncoding.EncodeToString(customSalt))
+
+	fmt.Printf("Base64 encoded custom hash: %s\n", ch)
+	fmt.Printf("Base64 encoded custom salt: %s\n", cs)
 
 	// Verify with custom salt
 	fmt.Println("\n5. Verifying password with custom salt...")
