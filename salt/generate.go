@@ -12,13 +12,13 @@ var (
 	ErrSaltLength = errors.New("salt length is set to negative number")
 )
 
-func GenerateSalt(sl int) (string, error) {
+func GenerateSalt(sl int) ([]byte, error) {
 
 	// validate salt length config
 	if sl == 0 {
 		sl = 15
 	} else if sl < 0 {
-		return "", ErrSaltLength
+		return nil, ErrSaltLength
 	}
 
 	var salt string
@@ -26,10 +26,10 @@ func GenerateSalt(sl int) (string, error) {
 	for range sl {
 		i, err := rand.Int(rand.Reader, big.NewInt(int64(len(SALTALLOWEDCHARS))))
 		if err != nil {
-			return "", nil
+			return nil, nil
 		}
 		salt += string(SALTALLOWEDCHARS[i.Int64()])
 	}
 
-	return salt, nil
+	return []byte(salt), nil
 }
