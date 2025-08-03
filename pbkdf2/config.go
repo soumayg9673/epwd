@@ -3,6 +3,7 @@ package pbkdf2
 import (
 	"crypto/sha256"
 	"crypto/sha512"
+	"errors"
 	"hash"
 )
 
@@ -13,7 +14,11 @@ type pwdConfig struct {
 	SaltLen int
 }
 
-var config pwdConfig
+var (
+	config        pwdConfig
+	ErrPwdIter    = errors.New("iterations is set to negatice number")
+	ErrComparePwd = errors.New("incorrect password")
+)
 
 func SetPwdConfig(h string, itr, keyLen, sLen int) {
 	config = pwdConfig{
