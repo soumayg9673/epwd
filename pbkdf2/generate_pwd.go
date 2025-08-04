@@ -1,7 +1,7 @@
 package pbkdf2
 
 import (
-	"crypto/pbkdf2"
+	p2 "crypto/pbkdf2"
 	"crypto/sha256"
 
 	"github.com/soumayg9673/epwd/salt"
@@ -39,7 +39,7 @@ func GeneratePasswordWithAutoSalt(password []byte) ([]byte, []byte, error) {
 	// Derive a secure key from the password using PBKDF2 with the provided hash function,
 	// salt, iteration count, and desired key length.
 	// This process makes brute-force attacks significantly harder.
-	dk, err := pbkdf2.Key(config.Hash, string(password), []byte(salt), config.Iter, config.KeyLen)
+	dk, err := p2.Key(config.Hash, string(password), []byte(salt), config.Iter, config.KeyLen)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -78,7 +78,7 @@ func GeneratePasswordWithSalt(password, salt []byte) ([]byte, error) {
 	//
 	// This operation is computationally expensive by design,
 	// making brute-force and dictionary attacks more difficult.
-	dk, err := pbkdf2.Key(config.Hash, string(password), salt, config.Iter, config.KeyLen)
+	dk, err := p2.Key(config.Hash, string(password), salt, config.Iter, config.KeyLen)
 	if err != nil {
 		return nil, err
 	}
